@@ -2,6 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct no
+{
+    int v;           // valor do nó
+    struct no *prox; // ponteiro para o próximo nó
+
+} no; // estrutura para a lista encadeada
+
 void hashLinear(int k, int m, int *v) // função para a sondagem linear
 {
     int c = 0;        // contador de colisões
@@ -19,8 +26,13 @@ void hashLinear(int k, int m, int *v) // função para a sondagem linear
     v[i] = k; // armazena o valor no vetor
 }
 
-void hashLista(int k, int m, int *v) // função para o endereço fechado
+void hashLista(int k, int m, no **v_lista) // função para o endereço fechado
 {
+    int i = k % m;                // calcula o endereço inicial
+    no *new = malloc(sizeof(no)); // aloca memória para o novo nó
+    new->v = k;                   // armazena o valor no nó
+    new->prox = v_lista[i];             // armazena o endereço do próximo nó
+    v_lista[i] = new;                   // armazena o endereço do novo nó no vetor
 }
 
 int main()
@@ -48,6 +60,12 @@ int main()
         {
             break;
         }
+    }
+
+    no **v_lista = malloc(m * sizeof(no *)); // vetor de ponteiros para a lista encadeada
+    for (int i = 0; i < m; i++)
+    {
+        v_lista[i] = NULL; // inicializando o vetor de ponteiros
     }
 
     int *v = malloc(m * sizeof(int)); // vetor de tamanho m
@@ -93,7 +111,7 @@ int main()
             }
             else if (ch == ';')
             {
-                hashLista(num, m, v); // chamando a função hashLista
+                hashLista(num, m, v_lista); // chamando a função hashLista
                 num = 0;              // zerando o numero
             }
         }
@@ -104,12 +122,35 @@ int main()
         {
             printf("%d : %d\n", i, v[i]); // imprimindo o vetor
         }
+        free(v); // liberando a memória alocada
     }
     else if (op == 0) // imprimindo o vetor de lista encadeada
     {
+        for (int i = 0; i < m; i++)
+        {
+            printf("%d :", i);  // imprimindo o vetor
+            no *aux = v_lista[i];     // ponteiro auxiliar
+            while (aux != NULL) // enquanto o ponteiro auxiliar não for nulo
+            {
+                printf(" %d ->", aux->v); // imprimindo o valor do nó
+                aux = aux->prox;          // ponteiro auxiliar recebe o próximo nó
+            }
+            printf(" NULL\n"); // imprimindo o final da lista
+        }
+
+        for (int i = 0; i < m; i++)
+        {
+            no *aux = v_lista[i];     // ponteiro auxiliar
+            while (aux != NULL) // enquanto o ponteiro auxiliar não for nulo
+            {
+                no *aux2 = aux -> prox;   // ponteiro auxiliar 2
+                free(aux);        // liberando a memória alocada
+                aux = aux2; // ponteiro auxiliar recebe o próximo nó
+            }
+        }
+        free(v_lista); // liberando a memória alocada
     }
 
-    free(v);    // liberando a memória alocada
     fclose(fp); // fechando o arquivo
     return 0;   // finalizando o programa
 }
