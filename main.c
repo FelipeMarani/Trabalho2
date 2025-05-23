@@ -135,7 +135,7 @@ int main()
                 printf(" %d ->", aux->v); // imprimindo o valor do nó
                 aux = aux->prox;          // ponteiro auxiliar recebe o próximo nó
             }
-            printf(" NULL\n"); // imprimindo o final da lista
+            printf("\n");
         }
 
         for (int i = 0; i < m; i++)
