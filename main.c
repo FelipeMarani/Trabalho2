@@ -61,19 +61,6 @@ int main()
             break;
         }
     }
-
-    no **v_lista = malloc(m * sizeof(no *)); // vetor de ponteiros para a lista encadeada
-    for (int i = 0; i < m; i++)
-    {
-        v_lista[i] = NULL; // inicializando o vetor de ponteiros
-    }
-
-    int *v = malloc(m * sizeof(int)); // vetor de tamanho m
-    for (int i = 0; i < m; i++)
-    {
-        v[i] = 0; // inicializando o vetor com 0
-    }
-
     while ((ch = fgetc(fp)) != '\n') // realizando a leitura do arquivo
     {
         if (ch >= '0' && ch <= '9')
@@ -88,6 +75,11 @@ int main()
 
     if (op == 1) // condição para a sondagem linear
     {
+        int *v = malloc(m * sizeof(int)); // vetor de tamanho m
+    for (int i = 0; i < m; i++)
+    {
+        v[i] = 0; // inicializando o vetor com 0
+    }
         while ((ch = fgetc(fp)) != EOF) // realizando a leitura do arquivo
         {
             if (ch >= '0' && ch <= '9')
@@ -103,6 +95,11 @@ int main()
     }
     else if (op == 0) // condição para a lista encadeada
     {
+        no **v_lista = malloc(m * sizeof(no *)); // vetor de ponteiros para a lista encadeada
+    for (int i = 0; i < m; i++)
+    {
+        v_lista[i] = NULL; // inicializando o vetor de ponteiros
+    }
         while ((ch = fgetc(fp)) != EOF) // realizando a leitura do arquivo
         {
             if (ch >= '0' && ch <= '9')
